@@ -4,6 +4,12 @@
 PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 
 #create function that will print all the data. 
+PRINT_DATA () {
+  echo $SEARCH_RESULT| while IFS="|" read ATOMIC_NUMBER ATOMIC_SYMBOL NAME TYPE MASS MELTING_POINT BOILING_POINT
+  do
+  echo -e "\nThe element with atomic number $ATOMIC_NUMBER is $NAME ($ATOMIC_SYMBOL). It's a $TYPE, with a mass of $MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
+  done
+}
 
 #create function that will "get data"
 GET_DATA () {
@@ -12,19 +18,19 @@ GET_DATA () {
   then
     #get everything from atomic number
     SEARCH_RESULT=$($PSQL "SELECT atomic_number, symbol, name, type, atomic_mass, melting_point_celcius, boiling_point_celcius FROM elements FULL JOIN properties USING(atomic_number) FULL JOIN types USING(type_id) WHERE atomic_number=$2")
-    echo $SEARCH_RESULT | PRINT_DATA
+    PRINT_DATA
     #else if read 2
   else
     if [[ $1 == 2 ]]
     then
       #get everything from atomic symbol
       SEARCH_RESULT=$($PSQL "SELECT atomic_number, symbol, name, type, atomic_mass, melting_point_celcius, boiling_point_celcius FROM elements FULL JOIN properties USING(atomic_number) FULL JOIN types USING(type_id) WHERE symbol='$2'")
-      echo $SEARCH_RESULT | PRINT_DATA
+      PRINT_DATA
       #else read 3
     else
       #get everything from name
       SEARCH_RESULT=$($PSQL "SELECT atomic_number, symbol, name, type, atomic_mass, melting_point_celcius, boiling_point_celcius FROM elements FULL JOIN properties USING(atomic_number) FULL JOIN types USING(type_id) WHERE name='$2'")
-      echo $SEARCH_RESULT | PRINT_DATA
+      PRINT_DATA
     fi
   fi
 }
