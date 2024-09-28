@@ -7,7 +7,7 @@ PSQL="psql --username=freecodecamp --dbname=periodic_table -t --no-align -c"
 PRINT_DATA () {
   echo $SEARCH_RESULT| while IFS="|" read ATOMIC_NUMBER ATOMIC_SYMBOL NAME TYPE MASS MELTING_POINT BOILING_POINT
   do
-  echo -e "\nThe element with atomic number $ATOMIC_NUMBER is $NAME ($ATOMIC_SYMBOL). It's a $TYPE, with a mass of $MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
+  echo -e "The element with atomic number $ATOMIC_NUMBER is $NAME ($ATOMIC_SYMBOL). It's a $TYPE, with a mass of $MASS amu. $NAME has a melting point of $MELTING_POINT celsius and a boiling point of $BOILING_POINT celsius."
   done
 }
 
@@ -39,7 +39,7 @@ GET_DATA () {
 if [[ -z $1 ]]
 then
   #print message
-  echo -e "\nPlease provide an element as an argument."
+  echo -e "Please provide an element as an argument."
   #Else, see if argument is atomic number
 else
   if [[ $1 =~ ^[0-9]+$ ]]
@@ -63,7 +63,7 @@ else
         GET_DATA 3 $ELEMENT_NAME
       #else print error 
       else
-        echo -e "\nI could not find that element in the database."
+        echo -e "I could not find that element in the database."
       fi
     fi
   fi
